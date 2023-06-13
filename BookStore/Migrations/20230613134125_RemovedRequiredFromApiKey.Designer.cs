@@ -3,6 +3,7 @@ using System;
 using BookStore.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookStore.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230613134125_RemovedRequiredFromApiKey")]
+    partial class RemovedRequiredFromApiKey
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.5");
@@ -29,7 +32,7 @@ namespace BookStore.Migrations
 
                     b.HasIndex("CartsCartId");
 
-                    b.ToTable("BookCart", (string)null);
+                    b.ToTable("BookCart");
                 });
 
             modelBuilder.Entity("BookOrder", b =>
@@ -44,7 +47,7 @@ namespace BookStore.Migrations
 
                     b.HasIndex("OrdersOrderId");
 
-                    b.ToTable("BookOrder", (string)null);
+                    b.ToTable("BookOrder");
                 });
 
             modelBuilder.Entity("BookStore.DataModels.Book", b =>
@@ -66,7 +69,7 @@ namespace BookStore.Migrations
 
                     b.HasKey("BookId");
 
-                    b.ToTable("Books", (string)null);
+                    b.ToTable("Books");
                 });
 
             modelBuilder.Entity("BookStore.DataModels.Cart", b =>
@@ -83,7 +86,7 @@ namespace BookStore.Migrations
                     b.HasIndex("CustomerId")
                         .IsUnique();
 
-                    b.ToTable("Carts", (string)null);
+                    b.ToTable("Carts");
                 });
 
             modelBuilder.Entity("BookStore.DataModels.Customer", b =>
@@ -110,7 +113,7 @@ namespace BookStore.Migrations
 
                     b.HasKey("CustomerId");
 
-                    b.ToTable("Customers", (string)null);
+                    b.ToTable("Customers");
                 });
 
             modelBuilder.Entity("BookStore.DataModels.Order", b =>
@@ -129,7 +132,7 @@ namespace BookStore.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.ToTable("Order", (string)null);
+                    b.ToTable("Order");
                 });
 
             modelBuilder.Entity("BookCart", b =>
