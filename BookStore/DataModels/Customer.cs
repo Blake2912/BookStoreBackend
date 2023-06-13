@@ -20,6 +20,7 @@ namespace BookStore.DataModels
         public string Password { get; set; }
 		public ICollection<Order> Orders { get; set; } = new List<Order>();
 		public Cart? Cart { get; set; }
+		public string ApiKey { get; set; }
 	}
 }
 

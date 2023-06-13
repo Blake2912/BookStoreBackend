@@ -8,6 +8,9 @@ namespace BookStore.Repository
 	{
         public Task<bool> CreateCustomer(Customer customer);
         public CustomerDetails GetCustomerDetails(int custId);
+        public bool DeleteCustomer(int custId);
+        public List<Customer> GetAllCustomers();
+        public string AuthenticateCustomerLogin(CustomerLoginPayload payload);
     }
 }
 
