@@ -8,7 +8,7 @@ namespace BookStore.Services
 	{
         public Task<bool> CreateCustomer(CustomerSignUpPayload customer);
         public CustomerDetails GetCustomerDetails(int customerId);
-        public bool DeleteCustomer(int customerId);
+        public Task<bool> DeleteCustomer(int customerId);
         public List<Customer> GetAllCustomers();
         public string LoginCustomer(CustomerLoginPayload payload);
 

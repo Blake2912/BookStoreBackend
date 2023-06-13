@@ -34,9 +34,9 @@ namespace BookStore.Services
 			return _customerRepository.GetCustomerDetails(customerId);
 		}
 
-        public bool DeleteCustomer(int customerId)
+        public async Task<bool> DeleteCustomer(int customerId)
         {
-            return _customerRepository.DeleteCustomer(customerId);
+            return await _customerRepository.DeleteCustomer(customerId);
         }
 
         public List<Customer> GetAllCustomers()

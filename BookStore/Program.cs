@@ -26,7 +26,9 @@ builder.Logging.AddConsole();
 // Depedency Injections
 builder.Services
     .AddScoped<ICustomerService, CustomerService>()
-    .AddScoped<ICustomerRepository, CustomerRepository>();
+    .AddScoped<ICustomerRepository, CustomerRepository>()
+    .AddScoped<IBookService, BookService>()
+    .AddScoped<IBookRepository, BookRepository>();
 
 var app = builder.Build();
 

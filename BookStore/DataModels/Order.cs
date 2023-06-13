@@ -11,8 +11,8 @@ namespace BookStore.DataModels
 		// One order can have only one customer
 		public Customer Customer { get; set; } = null!;
 		// Many to Many Relationship
-        //public List<BooksInOrder> BooksInOrders { get; } = new();
-		public List<Book> Books { get; }
+		//public List<BooksInOrder> BooksInOrders { get; } = new();
+		public ICollection<Book> Books { get; } = new List<Book>();
     }
 }
 
