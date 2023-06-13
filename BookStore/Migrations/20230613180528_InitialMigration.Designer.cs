@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookStore.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230613134125_RemovedRequiredFromApiKey")]
-    partial class RemovedRequiredFromApiKey
+    [Migration("20230613180528_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -67,7 +67,12 @@ namespace BookStore.Migrations
                     b.Property<int>("InventoryQty")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int?>("WishListId")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("BookId");
+
+                    b.HasIndex("WishListId");
 
                     b.ToTable("Books");
                 });
@@ -135,6 +140,22 @@ namespace BookStore.Migrations
                     b.ToTable("Order");
                 });
 
+            modelBuilder.Entity("BookStore.DataModels.WishList", b =>
+                {
+                    b.Property<int>("WishListId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("CustomerId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("WishListId");
+
+                    b.HasIndex("CustomerId");
+
+                    b.ToTable("WishLists");
+                });
+
             modelBuilder.Entity("BookCart", b =>
                 {
                     b.HasOne("BookStore.DataModels.Book", null)
@@ -165,6 +186,13 @@ namespace BookStore.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("BookStore.DataModels.Book", b =>
+                {
+                    b.HasOne("BookStore.DataModels.WishList", null)
+                        .WithMany("Books")
+                        .HasForeignKey("WishListId");
+                });
+
             modelBuilder.Entity("BookStore.DataModels.Cart", b =>
                 {
                     b.HasOne("BookStore.DataModels.Customer", "Customer")
@@ -187,11 +215,25 @@ namespace BookStore.Migrations
                     b.Navigation("Customer");
                 });
 
+            modelBuilder.Entity("BookStore.DataModels.WishList", b =>
+                {
+                    b.HasOne("BookStore.DataModels.Customer", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerId");
+
+                    b.Navigation("Customer");
+                });
+
             modelBuilder.Entity("BookStore.DataModels.Customer", b =>
                 {
                     b.Navigation("Cart");
 
                     b.Navigation("Orders");
+                });
+
+            modelBuilder.Entity("BookStore.DataModels.WishList", b =>
+                {
+                    b.Navigation("Books");
                 });
 #pragma warning restore 612, 618
         }

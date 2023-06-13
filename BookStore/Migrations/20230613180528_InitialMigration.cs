@@ -6,26 +6,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace BookStore.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class InitialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "Books",
-                columns: table => new
-                {
-                    BookId = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    BookName = table.Column<string>(type: "TEXT", nullable: false),
-                    AuthorName = table.Column<string>(type: "TEXT", nullable: false),
-                    InventoryQty = table.Column<int>(type: "INTEGER", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Books", x => x.BookId);
-                });
-
             migrationBuilder.CreateTable(
                 name: "Customers",
                 columns: table => new
@@ -34,7 +19,8 @@ namespace BookStore.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
                     PhoneNumber = table.Column<string>(type: "TEXT", nullable: false),
-                    Password = table.Column<string>(type: "TEXT", nullable: false)
+                    Password = table.Column<string>(type: "TEXT", nullable: false),
+                    ApiKey = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -57,7 +43,7 @@ namespace BookStore.Migrations
                         column: x => x.CustomerId,
                         principalTable: "Customers",
                         principalColumn: "CustomerId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.SetNull);
                 });
 
             migrationBuilder.CreateTable(
@@ -77,7 +63,46 @@ namespace BookStore.Migrations
                         column: x => x.CustomerId,
                         principalTable: "Customers",
                         principalColumn: "CustomerId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.SetNull);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "WishLists",
+                columns: table => new
+                {
+                    WishListId = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    CustomerId = table.Column<int>(type: "INTEGER", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_WishLists", x => x.WishListId);
+                    table.ForeignKey(
+                        name: "FK_WishLists_Customers_CustomerId",
+                        column: x => x.CustomerId,
+                        principalTable: "Customers",
+                        principalColumn: "CustomerId");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Books",
+                columns: table => new
+                {
+                    BookId = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    BookName = table.Column<string>(type: "TEXT", nullable: false),
+                    AuthorName = table.Column<string>(type: "TEXT", nullable: false),
+                    InventoryQty = table.Column<int>(type: "INTEGER", nullable: false),
+                    WishListId = table.Column<int>(type: "INTEGER", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Books", x => x.BookId);
+                    table.ForeignKey(
+                        name: "FK_Books_WishLists_WishListId",
+                        column: x => x.WishListId,
+                        principalTable: "WishLists",
+                        principalColumn: "WishListId");
                 });
 
             migrationBuilder.CreateTable(
@@ -95,7 +120,7 @@ namespace BookStore.Migrations
                         column: x => x.BooksBookId,
                         principalTable: "Books",
                         principalColumn: "BookId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.SetNull);
                     table.ForeignKey(
                         name: "FK_BookCart_Carts_CartsCartId",
                         column: x => x.CartsCartId,
@@ -119,13 +144,13 @@ namespace BookStore.Migrations
                         column: x => x.BooksBookId,
                         principalTable: "Books",
                         principalColumn: "BookId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.SetNull);
                     table.ForeignKey(
                         name: "FK_BookOrder_Order_OrdersOrderId",
                         column: x => x.OrdersOrderId,
                         principalTable: "Order",
                         principalColumn: "OrderId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.SetNull);
                 });
 
             migrationBuilder.CreateIndex(
@@ -139,6 +164,11 @@ namespace BookStore.Migrations
                 column: "OrdersOrderId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Books_WishListId",
+                table: "Books",
+                column: "WishListId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Carts_CustomerId",
                 table: "Carts",
                 column: "CustomerId",
@@ -147,6 +177,11 @@ namespace BookStore.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Order_CustomerId",
                 table: "Order",
+                column: "CustomerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_WishLists_CustomerId",
+                table: "WishLists",
                 column: "CustomerId");
         }
 
@@ -167,6 +202,9 @@ namespace BookStore.Migrations
 
             migrationBuilder.DropTable(
                 name: "Order");
+
+            migrationBuilder.DropTable(
+                name: "WishLists");
 
             migrationBuilder.DropTable(
                 name: "Customers");

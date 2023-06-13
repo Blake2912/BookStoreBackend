@@ -158,7 +158,7 @@ namespace BookStore.Migrations
                     b.HasOne("BookStore.DataModels.Book", null)
                         .WithMany()
                         .HasForeignKey("BooksBookId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.SetNull)
                         .IsRequired();
 
                     b.HasOne("BookStore.DataModels.Cart", null)
@@ -173,13 +173,13 @@ namespace BookStore.Migrations
                     b.HasOne("BookStore.DataModels.Book", null)
                         .WithMany()
                         .HasForeignKey("BooksBookId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.SetNull)
                         .IsRequired();
 
                     b.HasOne("BookStore.DataModels.Order", null)
                         .WithMany()
                         .HasForeignKey("OrdersOrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.SetNull)
                         .IsRequired();
                 });
 
@@ -195,7 +195,7 @@ namespace BookStore.Migrations
                     b.HasOne("BookStore.DataModels.Customer", "Customer")
                         .WithOne("Cart")
                         .HasForeignKey("BookStore.DataModels.Cart", "CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.SetNull)
                         .IsRequired();
 
                     b.Navigation("Customer");
@@ -206,7 +206,7 @@ namespace BookStore.Migrations
                     b.HasOne("BookStore.DataModels.Customer", "Customer")
                         .WithMany("Orders")
                         .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.SetNull)
                         .IsRequired();
 
                     b.Navigation("Customer");
