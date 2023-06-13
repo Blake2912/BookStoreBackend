@@ -79,6 +79,24 @@ namespace BookStore.Repository
 			}
 		}
 
+		public Customer GetCustomerDetailsWithId(int custId)
+		{
+			string methodName = nameof(GetCustomerDetailsWithId);
+            try
+            {
+                var customer = _dataContext.Customers
+                .Where(x => x.CustomerId == custId)
+                .First();
+
+                return customer;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation("In {@method} | Exception Occured, message: {@message}", methodName, ex.Message);
+                return null;
+            }
+        }
+
 		public List<Customer> GetAllCustomers()
 		{
             string methodName = nameof(GetAllCustomers);

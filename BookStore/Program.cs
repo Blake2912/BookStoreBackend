@@ -1,6 +1,7 @@
 ﻿using BookStore.Data;
 using BookStore.Repository;
 using BookStore.Services;
+using BookStore.Util;
 using Microsoft.EntityFrameworkCore;
 using System.Text;
 
@@ -28,7 +29,10 @@ builder.Services
     .AddScoped<ICustomerService, CustomerService>()
     .AddScoped<ICustomerRepository, CustomerRepository>()
     .AddScoped<IBookService, BookService>()
-    .AddScoped<IBookRepository, BookRepository>();
+    .AddScoped<IBookRepository, BookRepository>()
+    .AddScoped<IOrderRepository, OrderRepository>()
+    .AddScoped<IOrderService, OrderService>()
+    .AddScoped<IUtil, Util>();
 
 var app = builder.Build();
 

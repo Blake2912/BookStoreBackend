@@ -6,13 +6,13 @@ namespace BookStore.DataModels
 	public class Order
 	{
         [Key]
-        public int OrderId { get; set; }
+        public string OrderId { get; set; }
 		public DateTime OrderPlacedDateTime { get; set; }
 		// One order can have only one customer
 		public Customer Customer { get; set; } = null!;
 		// Many to Many Relationship
 		//public List<BooksInOrder> BooksInOrders { get; } = new();
-		public ICollection<Book> Books { get; } = new List<Book>();
+		public ICollection<Book> Books { get; set; } = new List<Book>();
     }
 }
 

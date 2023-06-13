@@ -26,6 +26,7 @@
     <None Remove="Services\" />
     <None Remove="Repository\" />
     <None Remove="HelperModels\" />
+    <None Remove="Util\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DataModels\" />
@@ -34,5 +35,6 @@
     <Folder Include="Services\" />
     <Folder Include="Repository\" />
     <Folder Include="HelperModels\" />
+    <Folder Include="Util\" />
   </ItemGroup>
 </Project>
