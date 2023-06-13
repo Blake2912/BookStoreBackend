@@ -1,5 +1,8 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
+using BookStore.Services;
+using BookStore.Repository;
+using BookStore.DataModels;
 
 namespace BookStore.Controllers
 {
@@ -7,8 +10,26 @@ namespace BookStore.Controllers
 	[Route("[controller]")]
 	public class CustomerController : ControllerBase
 	{
-		public CustomerController()
+		private readonly ICustomerService _customerService;
+
+		public CustomerController(ICustomerService customerService)
 		{
+			_customerService = customerService;
+		}
+
+		[HttpPost("CustomerSignUp")]
+		public async Task<IActionResult> CustomerSignUp(Customer customer)
+		{
+			var res = await _customerService.CreateCustomer(customer);
+			if (res)
+			{
+				// Successful
+				return StatusCode(200, "Customer Created Successfully");
+			}
+			else
+			{
+				return StatusCode(400, "Error Occured While Customer Creation");
+			}
 		}
 	}
 }

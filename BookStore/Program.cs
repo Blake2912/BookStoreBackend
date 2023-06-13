@@ -1,4 +1,6 @@
 ﻿using BookStore.Data;
+using BookStore.Repository;
+using BookStore.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +14,15 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<DataContext>(options => options.UseSqlite(
         builder.Configuration.GetConnectionString("localDb")
     ));
+
+// Logging Capabilities
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
+
+// Depedency Injections
+builder.Services
+    .AddScoped<ICustomerService, CustomerService>()
+    .AddScoped<ICustomerRepository, CustomerRepository>();
 
 var app = builder.Build();
 
