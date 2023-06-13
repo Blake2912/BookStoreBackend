@@ -28,7 +28,7 @@ namespace BookStore.Controllers
 			{
 				if (await _bookService.AddBook(book) == false)
 				{
-                    return BadRequest($"Adding {book.BookName} failed");
+                    return BadRequest($"Adding {book.BookName} failed, check logs!");
                 }
                 return StatusCode(201,$"{book.BookName} was successfully added");
             }
@@ -75,8 +75,12 @@ namespace BookStore.Controllers
             var controllerName = nameof(DeleteBook);
 			try
 			{
-				return Ok(await _bookService.DeleteBook(bookId));
-			}
+				if (await _bookService.DeleteBook(bookId) == false)
+				{
+                    return BadRequest($"Deleting Book failed, check logs!");
+                }
+                return StatusCode(201, $"Book was successfully deleted");
+            }
 			catch (Exception ex)
             {
                 _logger.LogInformation("In {@controller} controller | Exception Occured with Message: {@message}", controllerName, ex.Message);
