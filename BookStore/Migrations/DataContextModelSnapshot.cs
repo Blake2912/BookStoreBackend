@@ -64,7 +64,12 @@ namespace BookStore.Migrations
                     b.Property<int>("InventoryQty")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int?>("WishListId")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("BookId");
+
+                    b.HasIndex("WishListId");
 
                     b.ToTable("Books");
                 });
@@ -132,12 +137,28 @@ namespace BookStore.Migrations
                     b.ToTable("Order");
                 });
 
+            modelBuilder.Entity("BookStore.DataModels.WishList", b =>
+                {
+                    b.Property<int>("WishListId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("CustomerId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("WishListId");
+
+                    b.HasIndex("CustomerId");
+
+                    b.ToTable("WishLists");
+                });
+
             modelBuilder.Entity("BookCart", b =>
                 {
                     b.HasOne("BookStore.DataModels.Book", null)
                         .WithMany()
                         .HasForeignKey("BooksBookId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.SetNull)
                         .IsRequired();
 
                     b.HasOne("BookStore.DataModels.Cart", null)
@@ -152,14 +173,21 @@ namespace BookStore.Migrations
                     b.HasOne("BookStore.DataModels.Book", null)
                         .WithMany()
                         .HasForeignKey("BooksBookId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.SetNull)
                         .IsRequired();
 
                     b.HasOne("BookStore.DataModels.Order", null)
                         .WithMany()
                         .HasForeignKey("OrdersOrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.SetNull)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("BookStore.DataModels.Book", b =>
+                {
+                    b.HasOne("BookStore.DataModels.WishList", null)
+                        .WithMany("Books")
+                        .HasForeignKey("WishListId");
                 });
 
             modelBuilder.Entity("BookStore.DataModels.Cart", b =>
@@ -167,7 +195,7 @@ namespace BookStore.Migrations
                     b.HasOne("BookStore.DataModels.Customer", "Customer")
                         .WithOne("Cart")
                         .HasForeignKey("BookStore.DataModels.Cart", "CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.SetNull)
                         .IsRequired();
 
                     b.Navigation("Customer");
@@ -178,8 +206,17 @@ namespace BookStore.Migrations
                     b.HasOne("BookStore.DataModels.Customer", "Customer")
                         .WithMany("Orders")
                         .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.SetNull)
                         .IsRequired();
+
+                    b.Navigation("Customer");
+                });
+
+            modelBuilder.Entity("BookStore.DataModels.WishList", b =>
+                {
+                    b.HasOne("BookStore.DataModels.Customer", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerId");
 
                     b.Navigation("Customer");
                 });
@@ -189,6 +226,11 @@ namespace BookStore.Migrations
                     b.Navigation("Cart");
 
                     b.Navigation("Orders");
+                });
+
+            modelBuilder.Entity("BookStore.DataModels.WishList", b =>
+                {
+                    b.Navigation("Books");
                 });
 #pragma warning restore 612, 618
         }
