@@ -1,4 +1,6 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
+
 namespace BookStore.DataModels
 {
 	/*
@@ -8,11 +10,13 @@ namespace BookStore.DataModels
 	 */
 	public class Cart
 	{
-		public int CartId { get; set; }
+        [Key]
+        public int CartId { get; set; }
+
 		public int CustomerId { get; set; }
 		public Customer Customer { get; set; } = null!;
+        public List<Book> Books { get; }
 
-
-	}
+    }
 }
 
