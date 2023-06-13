@@ -15,8 +15,8 @@ namespace BookStore.DataModels
 		public string BookName { get; set; }
 		public string AuthorName { get; set; }
 		public int InventoryQty { get; set; }
-		public List<Order> Orders { get; }
-		public List<Cart> Carts { get; }
+		public ICollection<Order> Orders { get; } = new List<Order>();
+		public ICollection<Cart> Carts { get; } = new List<Cart>();
 	}
 }
 

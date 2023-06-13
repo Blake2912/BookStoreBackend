@@ -38,14 +38,14 @@ namespace BookStore.Repository
 
 		}
 
-		public bool DeleteCustomer(int custId)
+		public async Task<bool> DeleteCustomer(int custId)
 		{
 			string methodName = nameof(DeleteCustomer);
 			try
 			{
 				Customer customer = _dataContext.Customers.Where(x => x.CustomerId == custId).First();
 				_dataContext.Customers.Remove(customer);
-				_dataContext.SaveChanges();
+				await _dataContext.SaveChangesAsync();
 				return true;
 			}
             catch (Exception ex)

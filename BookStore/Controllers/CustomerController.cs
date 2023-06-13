@@ -23,7 +23,7 @@ namespace BookStore.Controllers
 			if (res)
 			{
 				// Successful
-				return StatusCode(200, "Customer Created Successfully");
+				return StatusCode(201, "Customer Created Successfully");
 			}
 			else
 			{
@@ -46,9 +46,9 @@ namespace BookStore.Controllers
         }
 
 		[HttpDelete("DeleteCustomer")]
-		public IActionResult DeleteCustomer(int customerId)
+		public async Task<IActionResult> DeleteCustomer(int customerId)
 		{
-			var res = _customerService.DeleteCustomer(customerId);
+			var res = await _customerService.DeleteCustomer(customerId);
             if (res)
             {
                 return StatusCode(200, "Customer Deleted Successfully");
@@ -85,8 +85,7 @@ namespace BookStore.Controllers
             {
                 return StatusCode(400, "Invalid Credentials");
             }
-
-        }
+		}
 
     }
 }
