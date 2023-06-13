@@ -3,6 +3,7 @@ using System;
 using BookStore.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookStore.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230613175548_AddingWishList")]
+    partial class AddingWishList
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.5");
@@ -64,12 +67,7 @@ namespace BookStore.Migrations
                     b.Property<int>("InventoryQty")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("WishListId")
-                        .HasColumnType("INTEGER");
-
                     b.HasKey("BookId");
-
-                    b.HasIndex("WishListId");
 
                     b.ToTable("Books");
                 });
@@ -137,22 +135,6 @@ namespace BookStore.Migrations
                     b.ToTable("Order");
                 });
 
-            modelBuilder.Entity("BookStore.DataModels.WishList", b =>
-                {
-                    b.Property<int>("WishListId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("CustomerId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("WishListId");
-
-                    b.HasIndex("CustomerId");
-
-                    b.ToTable("WishLists");
-                });
-
             modelBuilder.Entity("BookCart", b =>
                 {
                     b.HasOne("BookStore.DataModels.Book", null)
@@ -183,13 +165,6 @@ namespace BookStore.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("BookStore.DataModels.Book", b =>
-                {
-                    b.HasOne("BookStore.DataModels.WishList", null)
-                        .WithMany("Books")
-                        .HasForeignKey("WishListId");
-                });
-
             modelBuilder.Entity("BookStore.DataModels.Cart", b =>
                 {
                     b.HasOne("BookStore.DataModels.Customer", "Customer")
@@ -212,25 +187,11 @@ namespace BookStore.Migrations
                     b.Navigation("Customer");
                 });
 
-            modelBuilder.Entity("BookStore.DataModels.WishList", b =>
-                {
-                    b.HasOne("BookStore.DataModels.Customer", "Customer")
-                        .WithMany()
-                        .HasForeignKey("CustomerId");
-
-                    b.Navigation("Customer");
-                });
-
             modelBuilder.Entity("BookStore.DataModels.Customer", b =>
                 {
                     b.Navigation("Cart");
 
                     b.Navigation("Orders");
-                });
-
-            modelBuilder.Entity("BookStore.DataModels.WishList", b =>
-                {
-                    b.Navigation("Books");
                 });
 #pragma warning restore 612, 618
         }
